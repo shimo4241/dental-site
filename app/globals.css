@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f8fcfc;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --surface: rgba(255, 255, 255, 0.86);
+  --surface-strong: #ffffff;
+  --border: rgba(148, 163, 184, 0.22);
+  --accent: #0f766e;
+  --accent-strong: #164e63;
+  --accent-soft: #ecfeff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 34%),
+    radial-gradient(circle at top right, rgba(15, 118, 110, 0.12), transparent 28%),
+    linear-gradient(180deg, #f8fcfc 0%, #ffffff 42%, #f8fafc 100%);
+  color: var(--foreground);
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+  color: var(--foreground);
+}
+
+@layer base {
+  * {
+    @apply border-slate-200;
+  }
+
+  body {
+    @apply antialiased;
+  }
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    @apply transition-all duration-200;
+  }
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-7xl px-6 py-20 md:px-8 lg:py-24;
+  }
+
+  .panel-surface {
+    @apply rounded-[2rem] border border-white/60 bg-white/80 shadow-luxe backdrop-blur-xl;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-teal-200/70 bg-teal-50 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.26em] text-teal-700;
+  }
+
+  .section-title {
+    @apply text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl;
+  }
+
+  .section-subtitle {
+    @apply mt-4 max-w-3xl text-base leading-8 text-slate-600 md:text-lg;
+  }
+}
