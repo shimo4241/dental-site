@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
+// 1. هاحنا عيطنا للكومبوننت ديال الشات بوت
+import ChatBot from "@/components/ChatBot"; 
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {children}
+        {/* 2. هاحنا حطيناه باش يبان فوق السيت كامل */}
+        <ChatBot /> 
+      </body>
     </html>
   );
 }
