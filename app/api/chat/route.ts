@@ -9,14 +9,15 @@ export async function POST(req: Request) {
 
     const lastMessage = geminiMessages[geminiMessages.length - 1];
     if (lastMessage && lastMessage.role === 'user') {
-      lastMessage.parts[0].text = `Instructions: Tu es l'assistant virtuel de 'Maison Dentaire Élysée'. 
-      IMPORTANT: Réponds TOUJOURS dans la même langue que l'utilisateur (Arabe, Français, Anglais ou Darija).
-      Sois professionnel, accueillant et aide les patients pour leurs rendez-vous ou questions de soins. 
+      // 🛑 هنا زدنا الأوامر الصارمة ديال اللغة والرونديفو
+      lastMessage.parts[0].text = `Instructions: Tu es l'assistant virtuel de 'Maison Dentaire Élysée'.
+      RÈGLE 1 (Langue) : Si le patient parle en Arabe ou en Darija marocaine, tu DOIS ABSOLUMENT répondre avec l'alphabet arabe (حروف عربية). N'utilise JAMAIS les lettres latines pour écrire en arabe (Interdiction d'utiliser le franco-arabe).
+      RÈGLE 2 (Rendez-vous) : TU NE PEUX PAS prendre ou enregistrer de rendez-vous toi-même. Si un patient veut un rendez-vous, ne lui dis jamais que le rendez-vous est confirmé. Dis-lui poliment de cliquer sur le bouton "Prendre un Rendez-vous" situé en haut du site web pour remplir le formulaire officiel.
+      
       Message du patient: ` + lastMessage.parts[0].text;
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
-    // هادي هي اللي تصلحات باش مايبقاش يعطي المشكل التقني
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
