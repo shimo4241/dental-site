@@ -9,7 +9,6 @@ export async function POST(req: Request) {
 
     const lastMessage = geminiMessages[geminiMessages.length - 1];
     if (lastMessage && lastMessage.role === 'user') {
-      // تعديل التعليمات ليكون متعدد اللغات ويتبع هوية العيادة
       lastMessage.parts[0].text = `Instructions: Tu es l'assistant virtuel de 'Maison Dentaire Élysée'. 
       IMPORTANT: Réponds TOUJOURS dans la même langue que l'utilisateur (Arabe, Français, Anglais ou Darija).
       Sois professionnel, accueillant et aide les patients pour leurs rendez-vous ou questions de soins. 
@@ -17,7 +16,8 @@ export async function POST(req: Request) {
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // هادي هي اللي تصلحات باش مايبقاش يعطي المشكل التقني
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
