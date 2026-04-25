@@ -9,13 +9,15 @@ export async function POST(req: Request) {
 
     const lastMessage = geminiMessages[geminiMessages.length - 1];
     if (lastMessage && lastMessage.role === 'user') {
-      lastMessage.parts[0].text = "Instructions: Tu es un assistant virtuel professionnel pour 'Maison Dentaire Élysée'. Réponds toujours en français, de manière polie et concise.\n\nMessage du patient: " + lastMessage.parts[0].text;
+      // تعديل التعليمات ليكون متعدد اللغات ويتبع هوية العيادة
+      lastMessage.parts[0].text = `Instructions: Tu es l'assistant virtuel de 'Maison Dentaire Élysée'. 
+      IMPORTANT: Réponds TOUJOURS dans la même langue que l'utilisateur (Arabe, Français, Anglais ou Darija).
+      Sois professionnel, accueillant et aide les patients pour leurs rendez-vous ou questions de soins. 
+      Message du patient: ` + lastMessage.parts[0].text;
     }
 
     const apiKey = process.env.GEMINI_API_KEY;
-    
-    // 🛑 هادي هي السمية الجديدة لي خدامة دابا: gemini-2.5-flash
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
@@ -26,15 +28,13 @@ export async function POST(req: Request) {
     const data = await response.json();
 
     if (!response.ok) {
-      console.error("Google API Error:", data);
-      return Response.json({ text: "Désolé, problème de connexion avec l'intelligence artificielle." });
+      return Response.json({ text: "Désolé, j'ai un petit souci technique. / عذراً، لدي مشكل تقني." });
     }
 
     const text = data.candidates[0].content.parts[0].text;
     return Response.json({ text });
 
   } catch (error) {
-    console.error("Server Error:", error);
-    return Response.json({ text: "Désolé, le serveur est temporairement indisponible." });
+    return Response.json({ text: "Erreur serveur. / خطأ في الخادم." });
   }
 }
