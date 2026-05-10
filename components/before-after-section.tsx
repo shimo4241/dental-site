@@ -30,9 +30,29 @@ export function BeforeAfterSection() {
             {beforeAfterCases.map((item, index) => (
               <StaggerItem key={item.title}>
                 <motion.article
-                  className="group rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-5 transition-colors duration-500 hover:border-white/20 hover:bg-white/[0.06] md:p-7"
-                  whileHover={reduceMotion ? {} : { y: -2 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  className="group rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-5 md:p-7"
+                  whileHover={
+                    reduceMotion
+                      ? {}
+                      : {
+                          y: -3,
+                          transition: {
+                            duration: 0.6,
+                            ease: [0.16, 1, 0.3, 1],
+                          },
+                        }
+                  }
+                  style={{
+                    transition: "border-color 0.7s ease, background-color 0.7s ease",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+                    e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+                    e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)";
+                  }}
                 >
                   <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:gap-10">
                     {/* Slider */}
@@ -64,7 +84,7 @@ export function BeforeAfterSection() {
                       </p>
 
                       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 transition-colors duration-500 group-hover:bg-white/[0.08]">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                             Technique
                           </p>
@@ -72,7 +92,7 @@ export function BeforeAfterSection() {
                             {item.technique}
                           </p>
                         </div>
-                        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 transition-colors duration-500 group-hover:bg-white/[0.08]">
                           <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                             Bénéfice perçu
                           </p>
@@ -95,10 +115,10 @@ export function BeforeAfterSection() {
             </p>
             <Link
               href="#reservation"
-              className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-slate-950 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-50 hover:shadow-lg hover:shadow-cyan-500/10"
+              className="group/cta mt-4 inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-slate-950 transition-all duration-500 hover:-translate-y-0.5 hover:bg-cyan-50 hover:shadow-lg hover:shadow-cyan-500/10"
             >
               Prendre un rendez-vous
-              <ArrowRight className="h-4 w-4" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover/cta:translate-x-0.5" />
             </Link>
           </FadeInUp>
         </div>

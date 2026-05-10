@@ -12,6 +12,8 @@
   --accent: #0f766e;
   --accent-strong: #164e63;
   --accent-soft: #ecfeff;
+  --luxury-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --luxury-duration: 500ms;
 }
 
 html {
@@ -41,12 +43,23 @@ body {
     @apply antialiased;
   }
 
+  /* ── Premium global transition baseline ── */
   a,
-  button,
+  button {
+    transition:
+      color var(--luxury-duration) var(--luxury-ease),
+      background-color var(--luxury-duration) var(--luxury-ease),
+      border-color var(--luxury-duration) var(--luxury-ease),
+      box-shadow var(--luxury-duration) var(--luxury-ease),
+      transform var(--luxury-duration) var(--luxury-ease);
+  }
+
   input,
   select,
   textarea {
-    @apply transition-all duration-200;
+    transition:
+      border-color var(--luxury-duration) var(--luxury-ease),
+      box-shadow var(--luxury-duration) var(--luxury-ease);
   }
 }
 
@@ -57,6 +70,9 @@ body {
 
   .panel-surface {
     @apply rounded-[2rem] border border-white/60 bg-white/80 shadow-luxe backdrop-blur-xl;
+    transition:
+      border-color var(--luxury-duration) var(--luxury-ease),
+      box-shadow var(--luxury-duration) var(--luxury-ease);
   }
 
   .eyebrow {

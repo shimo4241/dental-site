@@ -225,7 +225,7 @@ export function BookingSection() {
               <button
                 type="button"
                 onClick={() => setMoisAffiche((courant) => subMonths(courant!, 1))}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:border-teal-200 hover:text-teal-700"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-teal-200 hover:text-teal-700"
                 aria-label="Mois précédent"
               >
                 <ChevronLeft className="h-5 w-5" />
@@ -233,7 +233,7 @@ export function BookingSection() {
               <button
                 type="button"
                 onClick={() => setMoisAffiche((courant) => addMonths(courant!, 1))}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 hover:border-teal-200 hover:text-teal-700"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 transition-all duration-300 hover:border-teal-200 hover:text-teal-700"
                 aria-label="Mois suivant"
               >
                 <ChevronRight className="h-5 w-5" />
@@ -263,7 +263,7 @@ export function BookingSection() {
                   onClick={() => gestionSelectionDate(jour)}
                   disabled={!reservable}
                   className={[
-                    "aspect-square rounded-xl border text-[13px] font-medium sm:rounded-2xl sm:text-sm",
+                    "aspect-square rounded-xl border text-[13px] font-medium transition-all duration-300 sm:rounded-2xl sm:text-sm",
                     selectionne
                       ? "border-slate-950 bg-slate-950 text-white shadow-lg shadow-slate-900/20"
                       : reservable
@@ -312,9 +312,9 @@ export function BookingSection() {
                     key={creneau}
                     type="button"
                     onClick={() => setHeureSelectionnee(creneau)}
-                    className={`rounded-full px-4 py-3 text-[13px] font-semibold sm:text-sm ${
+                    className={`rounded-full px-4 py-3 text-[13px] font-semibold transition-all duration-300 sm:text-sm ${
                       heureSelectionnee === creneau
-                        ? "bg-teal-700 text-white"
+                        ? "bg-teal-700 text-white shadow-md shadow-teal-900/15"
                         : "border border-slate-200 bg-white text-slate-700 hover:border-teal-300 hover:text-teal-700"
                     }`}
                   >
@@ -446,7 +446,7 @@ export function BookingSection() {
                 !dateSelectionnee ||
                 !heureSelectionnee
               }
-              className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-4 text-sm font-semibold text-white hover:-translate-y-0.5 hover:bg-teal-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+              className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-6 py-4 text-sm font-semibold text-white transition-all duration-500 hover:-translate-y-0.5 hover:bg-teal-700 hover:shadow-lg hover:shadow-teal-900/15 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none"
             >
               {etatEnvoi === "loading"
                 ? "Envoi de votre demande..."

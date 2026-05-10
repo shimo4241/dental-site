@@ -1,11 +1,16 @@
+"use client";
+
 import { Gem, ShieldCheck, Sparkles, Stethoscope } from "lucide-react";
 import { services } from "@/lib/data";
 import { StaggerGroup, StaggerItem } from "./animated";
 import { SectionHeading } from "./section-heading";
+import { motion, useReducedMotion } from "framer-motion";
 
 const icons = [ShieldCheck, Stethoscope, Gem, Sparkles];
 
 export function ServicesSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section id="services" className="section-shell">
       <SectionHeading
@@ -20,10 +25,36 @@ export function ServicesSection() {
 
           return (
             <StaggerItem key={service.title} className="h-full">
-              <article className="panel-surface group h-full p-6 hover:-translate-y-1 hover:border-teal-200 md:p-7">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-700 to-cyan-600 text-white shadow-lg shadow-cyan-900/10">
+              <motion.article
+                className="panel-surface group h-full p-6 md:p-7"
+                whileHover={
+                  reduceMotion
+                    ? {}
+                    : {
+                        y: -4,
+                        transition: {
+                          duration: 0.6,
+                          ease: [0.16, 1, 0.3, 1],
+                        },
+                      }
+                }
+              >
+                <motion.div
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-700 to-cyan-600 text-white shadow-lg shadow-cyan-900/10"
+                  whileHover={
+                    reduceMotion
+                      ? {}
+                      : {
+                          scale: 1.06,
+                          transition: {
+                            duration: 0.5,
+                            ease: [0.16, 1, 0.3, 1],
+                          },
+                        }
+                  }
+                >
                   <Icon className="h-6 w-6" />
-                </div>
+                </motion.div>
                 <h3 className="mt-6 text-2xl font-semibold text-slate-950">
                   {service.title}
                 </h3>
@@ -35,13 +66,13 @@ export function ServicesSection() {
                   {service.points.map((point) => (
                     <li
                       key={point}
-                      className="rounded-2xl border border-slate-100 bg-slate-50/80 px-4 py-3 text-sm text-slate-700"
+                      className="rounded-2xl border border-slate-100 bg-slate-50/80 px-4 py-3 text-sm text-slate-700 transition-colors duration-500 group-hover:border-teal-100 group-hover:bg-teal-50/40"
                     >
                       {point}
                     </li>
                   ))}
                 </ul>
-              </article>
+              </motion.article>
             </StaggerItem>
           );
         })}

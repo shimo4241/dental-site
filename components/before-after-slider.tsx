@@ -23,16 +23,13 @@ export function BeforeAfterSlider({
   const [isHovered, setIsHovered] = useState(false);
   const reduceMotion = useReducedMotion();
 
-  const updatePosition = useCallback(
-    (clientX: number) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = clientX - rect.left;
-      const pct = Math.max(2, Math.min(98, (x / rect.width) * 100));
-      setSliderPos(pct);
-    },
-    []
-  );
+  const updatePosition = useCallback((clientX: number) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const pct = Math.max(2, Math.min(98, (x / rect.width) * 100));
+    setSliderPos(pct);
+  }, []);
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
@@ -56,7 +53,7 @@ export function BeforeAfterSlider({
     setIsDragging(false);
   }, []);
 
-  // Animate the slider intro once in view
+  // Gentle sweep animation on first view — calm, not flashy
   const [hasAnimated, setHasAnimated] = useState(false);
   useEffect(() => {
     if (reduceMotion) {
@@ -68,21 +65,21 @@ export function BeforeAfterSlider({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
-          // Sweep animation: 50 -> 25 -> 65 -> 50
           setHasAnimated(true);
+          // Slow, elegant sweep: center → left → right → center
           const steps = [
-            { pos: 30, delay: 200 },
-            { pos: 70, delay: 600 },
-            { pos: 50, delay: 400 },
+            { pos: 35, delay: 500 },
+            { pos: 65, delay: 900 },
+            { pos: 50, delay: 700 },
           ];
-          let totalDelay = 300;
+          let totalDelay = 400;
           steps.forEach(({ pos, delay }) => {
             totalDelay += delay;
             setTimeout(() => setSliderPos(pos), totalDelay);
           });
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.35 }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -109,45 +106,64 @@ export function BeforeAfterSlider({
         if (e.key === "ArrowRight") setSliderPos((p) => Math.min(98, p + 2));
       }}
     >
-      {/* After image — full background */}
-      <Image
-        src={afterImage}
-        alt={afterLabel}
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-      />
+      {/* After image — full background with soft hover zoom */}
+      <motion.div
+        className="absolute inset-0"
+        animate={{ scale: isHovered && !reduceMotion ? 1.03 : 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <Image
+          src={afterImage}
+          alt={afterLabel}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+        />
+      </motion.div>
 
-      {/* Before image — clipped */}
+      {/* Before image — clipped with matching hover zoom */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{
           clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
         }}
       >
-        <Image
-          src={beforeImage}
-          alt={beforeLabel}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-        />
+        <motion.div
+          className="absolute inset-0"
+          animate={{ scale: isHovered && !reduceMotion ? 1.03 : 1 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Image
+            src={beforeImage}
+            alt={beforeLabel}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+          />
+        </motion.div>
       </div>
 
-      {/* Slider line */}
+      {/* Slider line — fluid positioning via CSS transition */}
       <div
         className="absolute inset-y-0 z-10"
-        style={{ left: `${sliderPos}%`, transform: "translateX(-50%)" }}
+        style={{
+          left: `${sliderPos}%`,
+          transform: "translateX(-50%)",
+          transition: isDragging ? "none" : "left 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+        }}
       >
-        <div className="h-full w-[2px] bg-white/90 shadow-[0_0_12px_rgba(255,255,255,0.4)]" />
+        <div className="h-full w-[2px] bg-white/80 shadow-[0_0_16px_rgba(255,255,255,0.3)]" />
 
         {/* Handle */}
         <motion.div
-          className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-slate-950/70 shadow-lg shadow-black/30 backdrop-blur-md"
+          className="absolute left-1/2 top-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-slate-950/60 shadow-xl shadow-black/20 backdrop-blur-xl"
           animate={{
-            scale: isDragging ? 1.15 : isHovered ? 1.05 : 1,
+            scale: isDragging ? 1.12 : isHovered ? 1.04 : 1,
           }}
-          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          transition={{
+            duration: 0.5,
+            ease: [0.16, 1, 0.3, 1],
+          }}
         >
           <svg
             width="20"
@@ -174,26 +190,26 @@ export function BeforeAfterSlider({
         </motion.div>
       </div>
 
-      {/* Labels */}
+      {/* Labels — calm fade-in */}
       <motion.div
-        className="absolute bottom-4 left-4 z-20 rounded-full bg-slate-950/70 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur-md"
-        initial={{ opacity: 0, y: 8 }}
+        className="absolute bottom-4 left-4 z-20 rounded-full bg-slate-950/60 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur-xl"
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
+        transition={{ delay: 0.8, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         {beforeLabel}
       </motion.div>
       <motion.div
-        className="absolute bottom-4 right-4 z-20 rounded-full bg-white/90 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-950 backdrop-blur-md"
-        initial={{ opacity: 0, y: 8 }}
+        className="absolute bottom-4 right-4 z-20 rounded-full bg-white/85 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-950 backdrop-blur-xl"
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
+        transition={{ delay: 1.0, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         {afterLabel}
       </motion.div>
 
-      {/* Subtle gradient overlays for label contrast */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-24 bg-gradient-to-t from-black/30 to-transparent" />
+      {/* Subtle gradient overlay for label contrast */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-24 bg-gradient-to-t from-black/25 to-transparent" />
     </div>
   );
 }

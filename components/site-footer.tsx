@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Instagram,
@@ -65,7 +67,7 @@ export function SiteFooter() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="hover:text-slate-950"
+                className="transition-colors duration-500 hover:text-slate-950"
               >
                 {item.label}
               </Link>
@@ -84,7 +86,7 @@ export function SiteFooter() {
                   href={item.href}
                   target={item.external ? "_blank" : undefined}
                   rel={item.external ? "noreferrer" : undefined}
-                  className="inline-flex items-center gap-3 rounded-[1.2rem] border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-700 hover:border-teal-200 hover:text-teal-700"
+                  className="inline-flex items-center gap-3 rounded-[1.2rem] border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-700 transition-all duration-500 hover:-translate-y-0.5 hover:border-teal-200 hover:text-teal-700"
                 >
                   <Icon className="h-4 w-4 shrink-0" />
                   <span>{item.label}</span>
