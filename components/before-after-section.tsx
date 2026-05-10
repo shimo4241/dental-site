@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Star } from "lucide-react";
 import { beforeAfterCases } from "@/lib/data";
 import { FadeInUp, StaggerGroup, StaggerItem } from "./animated";
@@ -38,20 +39,40 @@ export function BeforeAfterSection() {
                 <article className="rounded-[1.75rem] border border-white/10 bg-white/5 p-5">
                   <div className="flex flex-col gap-6 md:flex-row">
                     <div className="grid flex-1 gap-4 sm:grid-cols-2">
-                      <div className="rounded-[1.4rem] border border-dashed border-white/15 bg-white/5 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
+                      <div className="rounded-[1.4rem] border border-white/15 bg-white/5 p-3">
+                        <p className="px-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
                           Avant
                         </p>
-                        <div className="mt-3 flex h-32 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-slate-800 to-slate-900 text-center text-sm text-slate-300 sm:h-40">
-                          Placeholder photo avant
+                        <div className="relative mt-3 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[1.2rem] bg-gradient-to-br from-slate-800 to-slate-900 text-center text-sm text-slate-300">
+                          {(item as any).beforeImage ? (
+                            <Image
+                              src={(item as any).beforeImage}
+                              alt="Avant le traitement"
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 50vw, 25vw"
+                            />
+                          ) : (
+                            "Placeholder photo avant"
+                          )}
                         </div>
                       </div>
-                      <div className="rounded-[1.4rem] border border-dashed border-cyan-300/20 bg-cyan-400/5 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
+                      <div className="rounded-[1.4rem] border border-cyan-300/20 bg-cyan-400/5 p-3">
+                        <p className="px-1 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
                           Après
                         </p>
-                        <div className="mt-3 flex h-32 items-center justify-center rounded-[1.2rem] bg-gradient-to-br from-cyan-900/25 to-teal-900/15 text-center text-sm text-cyan-50 sm:h-40">
-                          Placeholder photo après
+                        <div className="relative mt-3 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[1.2rem] bg-gradient-to-br from-cyan-900/25 to-teal-900/15 text-center text-sm text-cyan-50">
+                          {(item as any).afterImage ? (
+                            <Image
+                              src={(item as any).afterImage}
+                              alt="Après le traitement"
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 50vw, 25vw"
+                            />
+                          ) : (
+                            "Placeholder photo après"
+                          )}
                         </div>
                       </div>
                     </div>

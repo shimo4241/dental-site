@@ -63,7 +63,9 @@ export const beforeAfterCases = [
     description:
       "Un exemple de carte orientée conversion pour mettre en avant une transformation esthétique nette, crédible et rassurante.",
     technique: "Facettes céramiques et rééquilibrage du sourire",
-    resultat: "Ligne du sourire adoucie et teinte homogénéisée"
+    resultat: "Ligne du sourire adoucie et teinte homogénéisée",
+    beforeImage: "/images/transformations/smile_before_est.png",
+    afterImage: "/images/transformations/smile_after_est.png"
   },
   {
     category: "Orthodontie",
@@ -71,7 +73,9 @@ export const beforeAfterCases = [
     description:
       "Une mise en page pensée pour montrer l'évolution d'un cas orthodontique avec un rendu premium et très lisible.",
     technique: "Aligneurs transparents et contrôle occlusal",
-    resultat: "Arcades recentrées et meilleure lecture du visage"
+    resultat: "Arcades recentrées et meilleure lecture du visage",
+    beforeImage: "/images/transformations/smile_before_ortho.png",
+    afterImage: "/images/transformations/smile_after_ortho.png"
   },
   {
     category: "Implantologie",
@@ -79,7 +83,9 @@ export const beforeAfterCases = [
     description:
       "Cette variation illustre la capacité à rassurer sur la naturalité du résultat final dans les zones les plus visibles.",
     technique: "Implant unitaire et couronne esthétique sur mesure",
-    resultat: "Intégration naturelle dans le sourire"
+    resultat: "Intégration naturelle dans le sourire",
+    beforeImage: "/images/transformations/smile_before_impl.png",
+    afterImage: "/images/transformations/smile_after_impl.png"
   }
 ];
 
@@ -90,7 +96,8 @@ export const teamMembers = [
     role: "Chirurgienne-dentiste | Implantologie et réhabilitation orale",
     bio: "Le Dr Salma Bennis accompagne les cas complexes avec une approche alliant précision chirurgicale, confort patient et esthétique durable.",
     highlight: "Référente en planification implantaire et chirurgie guidée",
-    tags: ["Implantologie", "Chirurgie guidée", "Esthétique"]
+    tags: ["Implantologie", "Chirurgie guidée", "Esthétique"],
+    image: "/images/team/dentist_sb.png"
   },
   {
     name: "Dr Youssef El Idrissi",
@@ -98,7 +105,8 @@ export const teamMembers = [
     role: "Chirurgien-dentiste | Orthodontie et occlusion",
     bio: "Le Dr Youssef El Idrissi conçoit des protocoles d'alignement élégants, discrets et pédagogiques, adaptés aux attentes des patients exigeants.",
     highlight: "Spécialiste des plans de traitement à forte visibilité esthétique",
-    tags: ["Orthodontie", "Aligneurs", "Fonction"]
+    tags: ["Orthodontie", "Aligneurs", "Fonction"],
+    image: "/images/team/dentist_ye.png"
   },
   {
     name: "Dr Claire Martin",
@@ -106,7 +114,8 @@ export const teamMembers = [
     role: "Chirurgienne-dentiste | Dentisterie esthétique",
     bio: "Le Dr Claire Martin travaille les facettes, la teinte et l'harmonie globale du sourire avec une recherche constante de naturel et d'équilibre.",
     highlight: "Experte en facettes dentaires et finitions premium",
-    tags: ["Facettes", "Blanchiment", "Design du sourire"]
+    tags: ["Facettes", "Blanchiment", "Design du sourire"],
+    image: "/images/team/dentist_cm.png"
   }
 ];
 

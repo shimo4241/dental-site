@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   BadgeCheck,
@@ -132,17 +133,16 @@ export function HeroBanner() {
               </StaggerItem>
 
               <StaggerItem>
-                <div className="rounded-[1.75rem] border border-dashed border-white/20 bg-white/5 p-6">
-                  <div className="flex h-[320px] items-center justify-center rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-slate-800 via-teal-900/20 to-slate-900">
-                    <div className="max-w-xs text-center">
-                      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-100/70">
-                        Emplacement visuel
-                      </p>
-                      <p className="mt-4 text-2xl font-semibold leading-tight">
-                        Image hyper-réaliste de la clinique, de l'accueil ou
-                        d'un sourire avant/après.
-                      </p>
-                    </div>
+                <div className="rounded-[1.75rem] border border-white/20 bg-white/5 p-3">
+                  <div className="relative flex aspect-video lg:h-[320px] w-full items-center justify-center overflow-hidden rounded-[1.2rem] border border-white/10 bg-slate-900">
+                    <Image
+                      src="/images/hero/hero_banner.png"
+                      alt="Clinique dentaire haut de gamme"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      priority
+                    />
                   </div>
                 </div>
               </StaggerItem>

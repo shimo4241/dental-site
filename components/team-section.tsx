@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 import { teamMembers } from "@/lib/data";
 import { StaggerGroup, StaggerItem } from "./animated";
@@ -17,8 +18,20 @@ export function TeamSection() {
           <StaggerItem key={member.name} className="h-full">
             <article className="panel-surface h-full p-7">
               <div className="flex items-center gap-4">
-                <div className="flex h-20 w-20 items-center justify-center rounded-[1.75rem] bg-gradient-to-br from-teal-700 via-cyan-600 to-slate-800 text-xl font-semibold text-white shadow-lg shadow-cyan-900/20">
-                  {member.initials}
+                <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-[1.75rem] bg-slate-100 shadow-lg shadow-cyan-900/20">
+                  {member.image ? (
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-teal-700 via-cyan-600 to-slate-800 text-xl font-semibold text-white">
+                      {member.initials}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <p className="text-xl font-semibold text-slate-950">
