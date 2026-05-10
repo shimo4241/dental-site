@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -6,12 +8,41 @@ import {
   Instagram,
   MapPin,
   MessageCircle,
-  Phone
+  Phone,
+  Play
 } from "lucide-react";
 import { contactInfo, trustMetrics } from "@/lib/data";
 import { LoadIn, StaggerGroup, StaggerItem } from "./animated";
+import { motion, useReducedMotion } from "framer-motion";
+
+const cinematic = {
+  hidden: { opacity: 0, scale: 1.08 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 1.4,
+      ease: [0.22, 1, 0.36, 1],
+      delay: 0.3,
+    },
+  },
+};
+
+const shimmer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: [0, 0.5, 0],
+    transition: {
+      duration: 2.5,
+      ease: "easeInOut",
+      delay: 1.2,
+    },
+  },
+};
 
 export function HeroBanner() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="section-shell pt-14 md:pt-20">
       <div className="panel-surface overflow-hidden bg-hero-radial">
@@ -116,60 +147,88 @@ export function HeroBanner() {
             </StaggerItem>
           </StaggerGroup>
 
+          {/* ── Hero visual card ── */}
           <LoadIn
             delay={0.18}
-            className="relative min-h-[520px] rounded-[2rem] border border-white/70 bg-slate-950 p-6 text-white shadow-luxe"
+            className="relative flex min-h-[520px] flex-col rounded-[2rem] border border-white/70 bg-slate-950 text-white shadow-luxe"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.2),transparent_38%),linear-gradient(145deg,rgba(8,145,178,0.18),transparent_45%)]" />
-            <StaggerGroup
-              initialOnLoad
-              className="relative flex h-full flex-col justify-between rounded-[1.6rem] border border-white/10 bg-white/5 p-6"
-            >
-              <StaggerItem>
-                <div className="flex items-center gap-2 text-sm text-teal-100">
-                  <BadgeCheck className="h-4 w-4" />
-                  Plateau technique premium et image de fond à intégrer
-                </div>
-              </StaggerItem>
+            {/* Ambient gradient overlay */}
+            <div className="pointer-events-none absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.2),transparent_38%),linear-gradient(145deg,rgba(8,145,178,0.18),transparent_45%)]" />
 
-              <StaggerItem>
-                <div className="rounded-[1.75rem] border border-white/20 bg-white/5 p-3">
-                  <div className="relative flex aspect-video lg:h-[320px] w-full items-center justify-center overflow-hidden rounded-[1.2rem] border border-white/10 bg-slate-900">
-                    <Image
-                      src="/images/hero/hero_banner.png"
-                      alt="Clinique dentaire haut de gamme"
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      priority
-                    />
-                  </div>
-                </div>
-              </StaggerItem>
+            <div className="relative flex flex-1 flex-col p-5">
+              {/* Badge */}
+              <div className="mb-4 flex items-center gap-2 text-sm text-teal-100">
+                <BadgeCheck className="h-4 w-4" />
+                Plateau technique de dernière génération
+              </div>
 
-              <StaggerItem>
-                <div className="grid gap-4 rounded-[1.75rem] border border-white/10 bg-white/5 p-5 sm:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-semibold text-white">
-                      Parcours patient confidentiel
-                    </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-300">
-                      Accueil premium, diagnostics détaillés et accompagnement
-                      personnalisé à chaque rendez-vous.
-                    </p>
+              {/* Cinematic image reveal */}
+              <div className="relative flex-1 overflow-hidden rounded-[1.4rem]">
+                <motion.div
+                  className="absolute inset-0"
+                  variants={reduceMotion ? {} : cinematic}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <Image
+                    src="/images/hero/hero_banner.png"
+                    alt="Intérieur de la clinique dentaire haut de gamme"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 45vw"
+                    priority
+                  />
+                </motion.div>
+
+                {/* Cinematic shimmer */}
+                <motion.div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                  variants={reduceMotion ? {} : shimmer}
+                  initial="hidden"
+                  animate="visible"
+                />
+
+                {/* Bottom gradient for text contrast */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-slate-950/80 to-transparent" />
+
+                {/* Overlay badge inside the image */}
+                <div className="absolute bottom-4 left-4 right-4 z-10 flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-md">
+                    <Play className="h-4 w-4 text-white" fill="white" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-white">
-                      Résultats pensés sur la durée
+                    <p className="text-xs font-semibold text-white">
+                      Visite virtuelle
                     </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-300">
-                      Protocoles précis, esthétique naturelle et suivi clinique
-                      rigoureux.
+                    <p className="text-[11px] text-slate-300">
+                      Découvrez notre clinique
                     </p>
                   </div>
                 </div>
-              </StaggerItem>
-            </StaggerGroup>
+              </div>
+
+              {/* Bottom info cards */}
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[1.2rem] border border-white/10 bg-white/5 px-5 py-4">
+                  <p className="text-sm font-semibold text-white">
+                    Parcours patient confidentiel
+                  </p>
+                  <p className="mt-2 text-sm leading-7 text-slate-300">
+                    Accueil premium, diagnostics détaillés et accompagnement
+                    personnalisé à chaque rendez-vous.
+                  </p>
+                </div>
+                <div className="rounded-[1.2rem] border border-white/10 bg-white/5 px-5 py-4">
+                  <p className="text-sm font-semibold text-white">
+                    Résultats pensés sur la durée
+                  </p>
+                  <p className="mt-2 text-sm leading-7 text-slate-300">
+                    Protocoles précis, esthétique naturelle et suivi clinique
+                    rigoureux.
+                  </p>
+                </div>
+              </div>
+            </div>
           </LoadIn>
         </div>
       </div>

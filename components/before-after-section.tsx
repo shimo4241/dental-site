@@ -1,117 +1,106 @@
-import Image from "next/image";
-import { Star } from "lucide-react";
+"use client";
+
+import { ArrowRight } from "lucide-react";
 import { beforeAfterCases } from "@/lib/data";
 import { FadeInUp, StaggerGroup, StaggerItem } from "./animated";
 import { SectionHeading } from "./section-heading";
+import { BeforeAfterSlider } from "./before-after-slider";
+import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 
 export function BeforeAfterSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section id="resultats" className="section-shell">
       <div className="panel-surface overflow-hidden bg-slate-950 text-white">
-        <div className="grid gap-10 px-5 py-10 md:gap-12 md:px-10 md:py-12 lg:grid-cols-[0.9fr_1.1fr] lg:px-14">
-          <div>
-            <SectionHeading
-              badge="Avant / Après"
-              title="Des résultats visiblement raffinés, sans compromis sur la naturalité."
-              description="Cette section met en scène des emplacements visuels avant/après pour renforcer la confiance, illustrer la qualité des finitions et soutenir la conversion sur la prise de rendez-vous."
-              inverse
-            />
+        {/* Top header area */}
+        <div className="px-5 pt-10 md:px-10 md:pt-14 lg:px-14">
+          <SectionHeading
+            badge="Avant / Après"
+            title="Des résultats visiblement raffinés, sans compromis sur la naturalité."
+            description="Explorez nos transformations en faisant glisser le curseur sur chaque image. Chaque sourire est le fruit d'un protocole sur mesure, pensé pour durer."
+            inverse
+          />
+        </div>
 
-            <FadeInUp className="mt-8 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 text-sm leading-7 text-slate-300">
-              <div className="flex items-center gap-3 text-white">
-                <Star className="h-5 w-5 text-cyan-300" />
-                <p className="font-semibold">
-                  Idéal pour intégrer ultérieurement de vraies photographies
-                  patient avec accord écrit.
-                </p>
-              </div>
-              <p className="mt-4">
-                Chaque carte ci-contre est pensée pour accueillir des images
-                haute définition, un intitulé de traitement et une courte
-                promesse de résultat.
-              </p>
-            </FadeInUp>
-          </div>
-
-          <StaggerGroup className="grid gap-4 md:gap-5">
-            {beforeAfterCases.map((item) => (
+        {/* Cases grid */}
+        <div className="px-5 pb-10 pt-10 md:px-10 md:pb-14 lg:px-14">
+          <StaggerGroup className="grid gap-8 lg:gap-10">
+            {beforeAfterCases.map((item, index) => (
               <StaggerItem key={item.title}>
-                <article className="rounded-[1.75rem] border border-white/10 bg-white/5 p-5">
-                  <div className="flex flex-col gap-6 md:flex-row">
-                    <div className="grid flex-1 gap-4 sm:grid-cols-2">
-                      <div className="rounded-[1.4rem] border border-white/15 bg-white/5 p-3">
-                        <p className="px-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
-                          Avant
-                        </p>
-                        <div className="relative mt-3 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[1.2rem] bg-gradient-to-br from-slate-800 to-slate-900 text-center text-sm text-slate-300">
-                          {(item as any).beforeImage ? (
-                            <Image
-                              src={(item as any).beforeImage}
-                              alt="Avant le traitement"
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 50vw, 25vw"
-                            />
-                          ) : (
-                            "Placeholder photo avant"
-                          )}
-                        </div>
-                      </div>
-                      <div className="rounded-[1.4rem] border border-cyan-300/20 bg-cyan-400/5 p-3">
-                        <p className="px-1 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
-                          Après
-                        </p>
-                        <div className="relative mt-3 flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-[1.2rem] bg-gradient-to-br from-cyan-900/25 to-teal-900/15 text-center text-sm text-cyan-50">
-                          {(item as any).afterImage ? (
-                            <Image
-                              src={(item as any).afterImage}
-                              alt="Après le traitement"
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 50vw, 25vw"
-                            />
-                          ) : (
-                            "Placeholder photo après"
-                          )}
-                        </div>
-                      </div>
+                <motion.article
+                  className="group rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-5 transition-colors duration-500 hover:border-white/20 hover:bg-white/[0.06] md:p-7"
+                  whileHover={reduceMotion ? {} : { y: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                >
+                  <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] lg:gap-10">
+                    {/* Slider */}
+                    <div
+                      className={`${index % 2 === 1 ? "lg:order-2" : ""}`}
+                    >
+                      <BeforeAfterSlider
+                        beforeImage={item.beforeImage}
+                        afterImage={item.afterImage}
+                      />
                     </div>
 
-                    <div className="flex-1">
-                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200">
+                    {/* Info */}
+                    <div
+                      className={`flex flex-col justify-center ${
+                        index % 2 === 1 ? "lg:order-1" : ""
+                      }`}
+                    >
+                      <span className="inline-flex w-fit items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.24em] text-cyan-200">
                         {item.category}
-                      </p>
-                      <h3 className="mt-3 text-2xl font-semibold text-white">
+                      </span>
+
+                      <h3 className="mt-5 text-2xl font-semibold leading-tight text-white md:text-3xl">
                         {item.title}
                       </h3>
-                      <p className="mt-4 text-sm leading-7 text-slate-300">
+
+                      <p className="mt-4 text-sm leading-7 text-slate-300/90">
                         {item.description}
                       </p>
 
-                      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                        <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                          <p className="text-xs uppercase tracking-[0.22em] text-slate-400">
+                      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+                        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                             Technique
                           </p>
-                          <p className="mt-2 text-sm font-medium text-white">
+                          <p className="mt-2 text-sm font-medium leading-snug text-white">
                             {item.technique}
                           </p>
                         </div>
-                        <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                          <p className="text-xs uppercase tracking-[0.22em] text-slate-400">
+                        <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                          <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                             Bénéfice perçu
                           </p>
-                          <p className="mt-2 text-sm font-medium text-white">
+                          <p className="mt-2 text-sm font-medium leading-snug text-white">
                             {item.resultat}
                           </p>
                         </div>
                       </div>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               </StaggerItem>
             ))}
           </StaggerGroup>
+
+          {/* CTA */}
+          <FadeInUp className="mt-12 flex flex-col items-center text-center">
+            <p className="text-sm text-slate-400">
+              Vous souhaitez un sourire transformé ?
+            </p>
+            <Link
+              href="#reservation"
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-semibold text-slate-950 transition-all duration-300 hover:-translate-y-0.5 hover:bg-cyan-50 hover:shadow-lg hover:shadow-cyan-500/10"
+            >
+              Prendre un rendez-vous
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </FadeInUp>
         </div>
       </div>
     </section>
